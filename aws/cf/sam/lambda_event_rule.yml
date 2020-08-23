@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: Lambda scheduled to run perdiodically as a CW event rule and a custom CW Alarm
+Description: Lambda scheduled to run perdiodically as a CW event rule with a custom CW Alarm
 
 Parameters:
   Env:
@@ -50,7 +50,7 @@ Resources:
         -
           Arn: !GetAtt MyLambda.Arn
           Id: !Sub ${Env}-${Title}
-          Input: '[{"IsTimeCheck": true}]'
+          Input: '[{"some_input": true}]'
 
   MyLambdaEventRulePermission:
     Type: AWS::Lambda::Permission
@@ -63,7 +63,7 @@ Resources:
   AlarmsTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
-      TopicName: !Sub '${Env}-lambda-${Title}-alarms'
+      TopicName: !Sub '${Env}-${Title}-alarms'
       Subscription:
         - Endpoint:
             Fn::ImportValue: !Sub ${Env}-alarm-consumer-lambda-arn
@@ -100,5 +100,5 @@ Resources:
 
 Outputs:
   MyLambdaArn:
-    Description: Logentries  - lambda arn
+    Description: Lambda arn
     Value: !Ref MyLambda

@@ -70,8 +70,8 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - 'sqs:ReceiveMessage'
                   - 'sqs:GetQueueUrl'
+                  - 'sqs:ReceiveMessage'
                   - 'sqs:DeleteMessage'
                   - 'sqs:SendMessage'
                   - 'sqs:GetQueueAttributes'
@@ -80,7 +80,7 @@ Resources:
                   - 'sqs:ListQueueTags'
                 Resource:
                   - Fn::ImportValue: !Sub ${Env}-${Title}-queue-arn
-                  - !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:${Env}-meta
+                  - !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:${Env}-${Title}
 
   MyLambdaKmsKey:
     Type: 'AWS::KMS::Key'
@@ -109,13 +109,13 @@ Resources:
               - kms:ScheduleKeyDeletion
               - kms:CancelKeyDeletion
             Resource: "*"
-          - Sid: "Allow builders (Jenkins) to encrypt secrets"
+          - Sid: "Allow builders (CI-CD) to encrypt secrets"
             Effect: Allow
             Principal:
               AWS:
                 - !Sub arn:aws:iam::${AWS::AccountId}:root
-                - arn:aws:iam::936783871914:user/jenkins
-                - arn:aws:iam::936783871914:role/Jenkins
+                - arn:aws:iam::936783871914:role/CI-CD
+                - arn:aws:iam::936783871914:user/CI-CD
             Action:
               - kms:Encrypt
               - kms:ReEncrypt*
@@ -167,7 +167,7 @@ Resources:
           Type: SQS
           Properties:
             Queue:
-              Fn::ImportValue: !Sub ${Env}-${Title}queue-arn
+              Fn::ImportValue: !Sub ${Env}-${Title}-queue-arn
             BatchSize: 10
 
 Outputs:

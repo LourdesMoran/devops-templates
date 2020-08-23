@@ -4,7 +4,7 @@ Description: DynamoDB table
 
 Parameters:
   Env:
-    Description: The macro environment name used in naming conventions
+    Description: The environment name used in named conventions
     Type: String
     MinLength: 1
     MaxLength: 10
@@ -56,10 +56,6 @@ Parameters:
     MinValue: 1
     MaxValue: 90
     Description: Write capacities for the table
-
-  AlarmLambdaArn:
-    Description: Arn for alarm consumer lambda
-    Type: String
 
   AlarmLambdaName:
     Description: Name for alarm consumer lambda
@@ -176,9 +172,9 @@ Resources:
   AlarmsTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
-      TopicName: !Sub '${Env}-task-${Title}-alarms'
+      TopicName: !Sub '${Env}-${Title}-alarms'
       Subscription:
-        - Endpoint: !Ref AlarmLambdaArn
+        - Endpoint: !Sub ${Env}-alarm-consumer-lambda-arn
           Protocol: 'lambda'
 
   LambdaInvokePermission:
