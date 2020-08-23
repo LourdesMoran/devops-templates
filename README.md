@@ -1,2 +1,3 @@
 # Devops Templates
-Infracture-as-code templates
+
+Generic Infrastructure-as-code templates.

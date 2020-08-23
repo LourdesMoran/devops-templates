@@ -47,14 +47,14 @@ Parameters:
     Type: Number
     Default: 2
     MinValue: 1
-    MaxValue: 90
+    MaxValue: 70
     Description: Read capacities for the table
 
   ProvisionWriteCapacities:
     Type: Number
     Default: 2
     MinValue: 1
-    MaxValue: 90
+    MaxValue: 70
     Description: Write capacities for the table
 
   AlarmLambdaName:
@@ -141,8 +141,8 @@ Resources:
       ScalingTargetId: !Ref WriteCapacityScalableTarget
       TargetTrackingScalingPolicyConfiguration:
         TargetValue: 50.0
-        ScaleInCooldown: 60
-        ScaleOutCooldown: 60
+        ScaleInCooldown: 30
+        ScaleOutCooldown: 30
         PredefinedMetricSpecification:
           PredefinedMetricType: DynamoDBWriteCapacityUtilization
 
@@ -164,8 +164,8 @@ Resources:
       ScalingTargetId: !Ref ReadCapacityScalableTarget
       TargetTrackingScalingPolicyConfiguration:
         TargetValue: 50.0
-        ScaleInCooldown: 60
-        ScaleOutCooldown: 60
+        ScaleInCooldown: 30
+        ScaleOutCooldown: 30
         PredefinedMetricSpecification:
           PredefinedMetricType: DynamoDBReadCapacityUtilization
 
